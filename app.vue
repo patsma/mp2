@@ -1,18 +1,50 @@
 <template>
-  <div class="grid h-screen w-full grid-cols-12">
+  <div class="relaitve grid h-screen w-full grid-cols-12">
     <div
-      class="text-container col-span-12 grid h-full w-full place-content-center text-center"
+      class="text-container z-50 col-span-12 grid h-full w-full place-content-center text-center mix-blend-soft-light"
     >
       <div
         class="title grid content-center text-4xl font-light leading-[110%] text-black md:text-8xl"
       >
         Morten Christensen
       </div>
-      <div
-        class="title grid content-center font-secondary text-2xl font-normal italic leading-[140%] text-black"
-      >
-        Digital designer
+      <div class="subtitles relative grid">
+        <div
+          class="subtitle grid content-center font-secondary text-2xl font-normal italic leading-[140%] text-black"
+        >
+          Digital designer
+        </div>
+        <div
+          class="subtitle absolute top-0 left-1/2 grid w-full -translate-x-1/2 content-center font-secondary text-2xl font-normal italic leading-[140%] text-black"
+        >
+          UI designer
+        </div>
+        <div
+          class="subtitle absolute top-0 left-1/2 grid w-full -translate-x-1/2 content-center font-secondary text-2xl font-normal italic leading-[140%] text-black"
+        >
+          Visual designer
+        </div>
+        <div
+          class="subtitle absolute top-0 left-1/2 grid w-full -translate-x-1/2 content-center font-secondary text-2xl font-normal italic leading-[140%] text-black"
+        >
+          Portfolio
+        </div>
       </div>
+    </div>
+    <div class="loading-text absolute left-1/2 bottom-16 -translate-x-1/2">
+      <div class="loading-text__text text-sm leading-[110%]">19%</div>
+    </div>
+    <div class="loader-images absolute h-full w-full">
+      <img
+        class="center-center absolute h-[20.25rem] w-[36rem] object-cover"
+        src="@/assets/img/Image-component.jpg"
+        alt=""
+      />
+      <img
+        class="center-center absolute h-[30.25rem] w-[17rem]"
+        src="@/assets/img/Image-component-v.jpg"
+        alt=""
+      />
     </div>
   </div>
 
@@ -47,28 +79,31 @@
     </svg>
   </div>
 </template>
-<style>
+<style lang="scss">
+.subtitles {
+  overflow: 0;
+  visibility: hidden;
+}
 body {
   overflow-x: hidden;
   min-height: 300vh;
 }
+
 .loader {
-  /* position: relative; */
   filter: blur(100px);
   z-index: -1;
-  /* width: 100vw; */
-  height: 100vh;
 }
-svg {
+.loader svg {
   position: absolute;
   width: 100%;
   height: 100%;
   left: 0;
   top: 0;
 }
-/* .blob1 {
-  left: 50%;
-} */
+.loader-images {
+  opacity: 0;
+  visibility: hidden;
+}
 </style>
 <script>
 import gsap from "gsap";
@@ -94,7 +129,6 @@ export default {
         transformOrigin: "center center",
         duration: 10,
         repeat: -1,
-        // filter: "blur(40px)",
         yoyo: true,
       },
       "<"
