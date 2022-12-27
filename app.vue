@@ -1,12 +1,12 @@
 <template>
-  <div class="relaitve grid h-screen w-full grid-cols-12">
+  <div class="loader relaitve grid h-screen w-full grid-cols-12">
     <div
-      class="text-container z-50 col-span-12 grid h-full w-full place-content-center text-center mix-blend-soft-light"
+      class="text-container z-50 col-span-12 grid h-full w-screen place-content-center text-center"
     >
       <div
-        class="title grid content-center text-4xl font-light leading-[110%] text-black md:text-8xl"
+        class="title grid w-full content-center text-4xl font-light leading-[110%] text-black md:text-8xl"
       >
-        Morten Christensen
+        <div class="--text-split">Morten Christensen</div>
       </div>
       <div class="subtitles relative grid">
         <div
@@ -36,20 +36,21 @@
     </div>
     <div class="loader-images absolute h-full w-full">
       <img
+        alt=""
         class="center-center absolute h-[20.25rem] w-[36rem] object-cover"
         src="@/assets/img/Image-component.jpg"
-        alt=""
       />
       <img
+        alt=""
         class="center-center absolute h-[30.25rem] w-[17rem]"
         src="@/assets/img/Image-component-v.jpg"
-        alt=""
       />
     </div>
   </div>
-
-  <div class="loader pointer-events-none fixed top-0 h-screen w-screen">
-    <svg class="blob1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 743 607">
+  <div
+    class="blob-background pointer-events-none fixed top-0 h-screen w-screen"
+  >
+    <svg class="blob1" viewBox="0 0 743 607" xmlns="http://www.w3.org/2000/svg">
       <g id="Layer_2" data-name="Layer 2">
         <g id="Layer_1-2" data-name="Layer 1">
           <path
@@ -63,8 +64,8 @@
     </svg>
     <svg
       class="blob2"
-      xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 809.22 715.21"
+      xmlns="http://www.w3.org/2000/svg"
     >
       <g id="Layer_2" data-name="Layer 2">
         <g id="Layer_1-2" data-name="Layer 1">
@@ -80,26 +81,37 @@
   </div>
 </template>
 <style lang="scss">
-.subtitles {
-  overflow: 0;
-  visibility: hidden;
-}
 body {
   overflow-x: hidden;
-  min-height: 300vh;
+  //min-height: 300vh;
+}
+.--text-split {
+  overflow: hidden;
 }
 
-.loader {
+.subtitles {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.blob-background {
   filter: blur(100px);
   z-index: -1;
+
+  svg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+  }
 }
-.loader svg {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  left: 0;
-  top: 0;
+
+.loading-text {
+  opacity: 0;
+  visibility: hidden;
 }
+
 .loader-images {
   opacity: 0;
   visibility: hidden;
@@ -107,10 +119,38 @@ body {
 </style>
 <script>
 import gsap from "gsap";
+import SplitText from "gsap/SplitText";
 
 export default {
   mounted() {
-    const blobsTl = gsap.timeline();
+    gsap.registerPlugin(SplitText);
+
+    const blobsTl = gsap.timeline({ paused: true });
+
+    const tl = gsap.timeline({ delay: 1 }),
+      defaultSplitText = new SplitText(".--text-split", { type: "chars" }),
+      defaultSplitTextChars = defaultSplitText.chars; //an array of all the divs that wrap each character
+
+    tl.from(defaultSplitTextChars, {
+      duration: 0.8,
+      y: 100,
+      ease: "back",
+      stagger: {
+        from: "center",
+        amount: 1.5,
+      },
+    });
+    tl.from(".subtitles", {
+      duration: 0.8,
+      y: 100,
+      ease: "back",
+      stagger: {
+        from: "center",
+        amount: 1.5,
+      },
+    });
+    tl.add(blobsTl.play());
+
     blobsTl.to(".blob2", {
       x: "-=400",
       scale: 2.25,
