@@ -250,7 +250,7 @@ export default {
           autoAlpha: 0,
         });
       });
-      // masterTl.add(blobsTl.play(), "show-blob");
+      masterTl.add(blobsTl.play(), "show-blob");
       masterTl.add(imagesTL.play(), "show-blob");
 
       imagesTL.to(image01, {
